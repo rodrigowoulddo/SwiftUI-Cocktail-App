@@ -11,7 +11,7 @@ import Kingfisher
 
 struct ContentView: SwiftUI.View {
     
-    var drinks: [Drink] = []
+    var drinks: [Drink] = testData
     
     var body: some SwiftUI.View {
         
@@ -25,7 +25,11 @@ struct ContentView: SwiftUI.View {
             }
             .navigationBarTitle(Text("Drinks"))
             
+            Text("Select a Drink")
+                .font(.headline)
+            
         }
+        .accentColor(Color.white)
     }
 }
 
@@ -37,13 +41,19 @@ struct DrinkCell: SwiftUI.View {
             HStack {
                 
                 KFImage(URL(string: drink.thumbnailUrl))
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 60, height: 80)
-                .cornerRadius(10)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 60, height: 60)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .shadow(radius: 4)
+                
+                Spacer().frame(width: 20)
                 
                 Text(drink.name)
+                
             }
+            .padding(8)
         }
     }
 }
@@ -52,6 +62,6 @@ struct DrinkCell: SwiftUI.View {
 // MARK: - Preview
 struct ContentView_Previews: PreviewProvider {
     static var previews: some SwiftUI.View {
-        ContentView(drinks: testData)//.previewDevice(PreviewDevice(rawValue: "iPad mini (5th generation)"))
+        ContentView(drinks: testData).previewDevice(PreviewDevice(rawValue: "iPad mini (5th generation)"))
     }
 }
