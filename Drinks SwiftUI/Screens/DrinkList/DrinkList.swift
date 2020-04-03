@@ -9,21 +9,30 @@
 import SwiftUI
 import Kingfisher
 
-struct ContentView: SwiftUI.View {
+struct DrinkList: SwiftUI.View {
     
-    var drinks: [Drink] = testData
+    @ObservedObject var viewModel: DrinkListViewModel
     
+    init(viewModel: DrinkListViewModel) {
+        self.viewModel = viewModel
+    }
+        
     var body: some SwiftUI.View {
         
         NavigationView {
             
-            List(drinks) {
-                drink in
+            List {
                 
-                DrinkCell(drink: drink)
-                
+                ForEach(0 ..< viewModel.drinks.count, id: \.self) {
+                    i in
+                    
+                    DrinkCell(drink: self.viewModel.drinks[i])
+                }
+
             }
             .navigationBarTitle(Text("Drinks"))
+
+
             
             Text("Select a Drink")
                 .font(.headline)
@@ -40,13 +49,7 @@ struct DrinkCell: SwiftUI.View {
             
             HStack {
                 
-                KFImage(URL(string: drink.thumbnailUrl))
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 60, height: 60)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                    .shadow(radius: 4)
+                //DrinkIcon()
                 
                 Spacer().frame(width: 20)
                 
@@ -62,6 +65,19 @@ struct DrinkCell: SwiftUI.View {
 // MARK: - Preview
 struct ContentView_Previews: PreviewProvider {
     static var previews: some SwiftUI.View {
-        ContentView(drinks: testData).previewDevice(PreviewDevice(rawValue: "iPad mini (5th generation)"))
+        DrinkList(viewModel: DrinkListViewModel()).previewDevice(PreviewDevice(rawValue: "iPad mini (5th generation)"))
+    }
+}
+
+struct DrinkIcon: SwiftUI.View {
+    let thumbnailUrl: String
+    var body: some SwiftUI.View {
+        KFImage(URL(string: thumbnailUrl))
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 60, height: 60)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+            .shadow(radius: 4)
     }
 }

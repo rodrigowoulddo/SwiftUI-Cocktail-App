@@ -22,17 +22,11 @@ struct DrinkDetail: SwiftUI.View {
                 
                 ZStack {
                     
-                    VStack {
-                        ShadeImage(imageUrl: self.drink.thumbnailUrl)
-                            .edgesIgnoringSafeArea(.top)
-                            .frame(width: geometry.size.width, height: geometry.size.height / 2)
-                        
-                        Color(UIColor.systemBackground)
-                    }
+                    DrinkBackground(geometry: geometry)
                     
                     VStack {
                         
-                        CircleImage(imageUrl: self.drink.thumbnailUrl)
+                        //CircleImage()
                         
                         VStack(alignment: .center) {
                             
@@ -90,8 +84,29 @@ struct ShadeImage: SwiftUI.View {
     
 }
 
-struct DrinkDetail_Previews: PreviewProvider {
-    static var previews: some SwiftUI.View  {
-        DrinkDetail(drink: testData[0]).previewDevice(PreviewDevice(rawValue: "iPad mini (5th generation)"))
+//struct DrinkDetail_Previews: PreviewProvider {
+//    static var previews: some SwiftUI.View  {
+//        DrinkDetail(drink: ).previewDevice(PreviewDevice(rawValue: "iPad mini (5th generation)"))
+//    }
+//}
+
+struct DrinkBackground: SwiftUI.View {
+    let geometry: GeometryProxy
+    var body: some SwiftUI.View {
+        VStack {
+            //DrinkDetailIcon()
+            
+            Color(UIColor.systemBackground)
+        }
+    }
+}
+
+struct DrinkBackgroundImage: SwiftUI.View {
+    let thumbnailUrl: String
+    let geometry: GeometryProxy
+    var body: some SwiftUI.View {
+        ShadeImage(imageUrl: thumbnailUrl)
+            .edgesIgnoringSafeArea(.top)
+            .frame(width: geometry.size.width, height: geometry.size.height / 2)
     }
 }
